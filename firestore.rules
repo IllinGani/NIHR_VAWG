@@ -1,0 +1,92 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is signed in
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Deleted users collection (blacklist)
+    match /deleted_users/{email} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Tickets collection
+    match /tickets/{ticketId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Analytics collection
+    match /analytics/{analyticsId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Dissemination repository
+    match /dissemination/{itemId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Gantt tasks
+    match /tasks/{taskId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Team members
+    match /teamMembers/{memberId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Personal priorities
+    match /personalPriorities/{priorityId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Training & capacity building collections
+    match /training_events/{trainingId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /mentoring_records/{mentoringId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /training_resources/{resourceId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /attendance_records/{attendanceId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /training_feedback/{feedbackId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Capacity building collections
+    match /literature_library/{itemId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /nihr_academy_trainees/{traineeId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /manuscript_hub/{manuscriptId} {
+      allow read, write: if isSignedIn();
+    }
+
+    match /annual_reports/{reportId} {
+      allow read, write: if isSignedIn();
+    }
+
+    // Global safety net: fallback deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

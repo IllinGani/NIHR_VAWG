@@ -1,0 +1,390 @@
+{
+  "entities": {
+    "Ticket": {
+      "title": "Ticket",
+      "description": "An activity tracker ticket",
+      "type": "object",
+      "properties": {
+        "no": { "type": "string" },
+        "date": { "type": "string" },
+        "ticketInfo": { "type": "string" },
+        "owners": { 
+          "type": "array", 
+          "items": { "type": "string" } 
+        },
+        "action": { "type": "string" },
+        "status": { "type": "string" },
+        "completedDate": { "type": "string" },
+        "deadline": { "type": "string" },
+        "comments": { "type": "string" },
+        "category": { "type": "string" },
+        "isCore": { "type": "boolean" },
+        "isArchived": { "type": "boolean" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "url": { "type": "string" }
+            }
+          }
+        }
+      },
+      "required": ["no", "date", "ticketInfo", "status", "category", "userId"]
+    },
+    "AnalyticsData": {
+      "title": "AnalyticsData",
+      "description": "Survey analytics data point",
+      "type": "object",
+      "properties": {
+        "platform": { "type": "string" },
+        "spend": { "type": "number" },
+        "clicks": { "type": "number" },
+        "engagement": { "type": "number" },
+        "completions": { "type": "number" },
+        "adDays": { "type": "number" },
+        "date": { "type": "string" },
+        "notes": { "type": "string" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["platform", "spend", "clicks", "completions", "date", "userId"]
+    },
+    "DisseminationItem": {
+      "title": "DisseminationItem",
+      "description": "A dissemination repository item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "summary": { "type": "string" },
+        "link": { "type": "string" },
+        "type": { "type": "string", "enum": ["Publication", "Report", "Event", "Media"] },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "summary", "link", "type", "userId"]
+    },
+    "GanttTask": {
+      "title": "GanttTask",
+      "description": "A task in the Gantt chart",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "start": { "type": "string" },
+        "end": { "type": "string" },
+        "progress": { "type": "number" },
+        "owner": { "type": "string" },
+        "isCore": { "type": "boolean" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "category", "start", "end", "progress", "userId"]
+    },
+    "User": {
+      "title": "User",
+      "description": "A user of the system with granular role permissions",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string" },
+        "customRoleName": { "type": "string" },
+        "isApproved": { "type": "boolean" },
+        "requestedAt": { "type": "string" },
+        "password": { "type": "string" },
+        "isPreApproved": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "permissions": {
+          "type": "object",
+          "properties": {
+            "modules": { "type": "object" },
+            "actions": { "type": "object" }
+          }
+        }
+      },
+      "required": ["uid", "email", "role", "isApproved"]
+    },
+    "DeletedUser": {
+      "title": "DeletedUser",
+      "description": "Records representing a deleted or rejected user account",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "uid": { "type": "string" },
+        "deletedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "deletedAt"]
+    },
+    "PersonalPriority": {
+      "title": "PersonalPriority",
+      "description": "A personal task for the executive suite",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "userId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["text", "userId"]
+    },
+    "TrainingEvent": {
+      "title": "TrainingEvent",
+      "description": "A training event or activity session",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "type": { "type": "string", "enum": ["Short course", "Workshop", "Video", "Lecture", "Mentoring", "Conference", "Other"] },
+        "workPackage": { "type": "string", "enum": ["WP1", "WP2", "WP3", "WP4", "WP5", "Cross-cutting"] },
+        "country": { "type": "string", "enum": ["UK", "South Africa", "Sri Lanka", "Brazil", "Mexico", "Peru", "Other"] },
+        "leadFacilitator": { "type": "string" },
+        "partnerOrganisation": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "deliveryMode": { "type": "string", "enum": ["Online", "In-person", "Hybrid"] },
+        "status": { "type": "string", "enum": ["Planned", "Confirmed", "Delivered", "Cancelled"] },
+        "attendeesCount": { "type": "number" },
+        "targetAudience": { "type": "string" },
+        "notes": { "type": "string" },
+        "evidenceUploaded": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" },
+        "updatedBy": { "type": "string" }
+      },
+      "required": ["title", "type", "workPackage", "country", "date", "status"]
+    },
+    "MentoringRecord": {
+      "title": "MentoringRecord",
+      "description": "An ECR or researcher mentoring interaction",
+      "type": "object",
+      "properties": {
+        "menteeName": { "type": "string" },
+        "mentorName": { "type": "string" },
+        "country": { "type": "string", "enum": ["UK", "South Africa", "Sri Lanka", "Brazil", "Mexico", "Peru", "Other"] },
+        "institution": { "type": "string" },
+        "careerStage": { "type": "string", "enum": ["ECR", "Doctoral student", "Master’s student", "Postgraduate researcher", "Research fellow", "Other"] },
+        "mentoringFocus": { "type": "string", "enum": ["Publication", "Methods", "Leadership", "Policy engagement", "Grant writing", "Data analysis", "Career development", "Other"] },
+        "meetingDate": { "type": "string", "format": "date" },
+        "nextMeetingDate": { "type": "string", "format": "date" },
+        "status": { "type": "string", "enum": ["Active", "Paused", "Completed"] },
+        "keyActions": { "type": "string" },
+        "followUpRequired": { "type": "string" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" },
+        "updatedBy": { "type": "string" }
+      },
+      "required": ["menteeName", "mentorName", "country", "meetingDate", "status"]
+    },
+    "TrainingResource": {
+      "title": "TrainingResource",
+      "description": "Training resource or learning content",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "resourceType": { "type": "string", "enum": ["Slides", "Video", "Recording", "Reading list", "Template", "Guidance document", "Certificate", "Other"] },
+        "topicArea": { "type": "string", "enum": ["Survivor engagement in research", "Trauma-informed research", "Health data science", "Health economics", "Complex evaluation", "Policy evaluation", "Safeguarding", "Knowledge mobilisation", "Research ethics"] },
+        "workPackage": { "type": "string", "enum": ["WP1", "WP2", "WP3", "WP4", "WP5", "Cross-cutting"] },
+        "countryRelevance": { "type": "string" },
+        "uploadUrlOrLink": { "type": "string" },
+        "owner": { "type": "string" },
+        "dateUploaded": { "type": "string", "format": "date" },
+        "versionNumber": { "type": "string" },
+        "status": { "type": "string", "enum": ["Draft", "Approved", "Archived"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" },
+        "updatedBy": { "type": "string" }
+      },
+      "required": ["title", "resourceType", "topicArea", "workPackage", "status"]
+    },
+    "AttendanceRecord": {
+      "title": "AttendanceRecord",
+      "description": "An attendance tracking record for a training session",
+      "type": "object",
+      "properties": {
+        "eventName": { "type": "string" },
+        "eventId": { "type": "string" },
+        "participantName": { "type": "string" },
+        "email": { "type": "string" },
+        "country": { "type": "string", "enum": ["UK", "South Africa", "Sri Lanka", "Brazil", "Mexico", "Peru", "Other"] },
+        "institution": { "type": "string" },
+        "roleCareerStage": { "type": "string" },
+        "attendanceConfirmed": { "type": "string", "enum": ["Yes", "No"] },
+        "certificateIssued": { "type": "string", "enum": ["Yes", "No"] },
+        "dateCertificateIssued": { "type": "string", "format": "date" },
+        "feedbackSubmitted": { "type": "string", "enum": ["Yes", "No"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" },
+        "updatedBy": { "type": "string" }
+      },
+      "required": ["eventName", "participantName", "email", "country", "attendanceConfirmed", "certificateIssued"]
+    },
+    "TrainingFeedback": {
+      "title": "TrainingFeedback",
+      "description": "Training evaluation and feedback outcomes",
+      "type": "object",
+      "properties": {
+        "eventName": { "type": "string" },
+        "eventId": { "type": "string" },
+        "responsesCount": { "type": "number" },
+        "avgUsefulnessRating": { "type": "number" },
+        "avgConfidenceRating": { "type": "number" },
+        "qualitativeFeedback": { "type": "string" },
+        "suggestedImprovements": { "type": "string" },
+        "followUpNeeds": { "type": "string" },
+        "actionOwner": { "type": "string" },
+        "actionDeadline": { "type": "string", "format": "date" },
+        "actionStatus": { "type": "string", "enum": ["Pending", "In Progress", "Completed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" },
+        "updatedBy": { "type": "string" }
+      },
+      "required": ["eventName", "responsesCount", "avgUsefulnessRating", "avgConfidenceRating", "actionStatus"]
+    },
+    "NihrTrainee": {
+      "title": "NihrTrainee",
+      "description": "NIHR Academy trainee and academic career development record",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "degreeType": { "type": "string" },
+        "startDate": { "type": "string" },
+        "finishDate": { "type": "string" },
+        "anticipatedDegreeAwardDate": { "type": "string" },
+        "professionalBackground": { "type": "string" },
+        "percentNihrFunding": { "type": "string" },
+        "nationality": { "type": "string" },
+        "employingOrgCountry": { "type": "string" },
+        "employingOrgName": { "type": "string" },
+        "traineeMainLocationCountry": { "type": "string" },
+        "projectName": { "type": "string" },
+        "nextDestination": { "type": "string" },
+        "orcid": { "type": "string" },
+        "email": { "type": "string" },
+        "hasMentor": { "type": "string" },
+        "plainEnglishSummary": { "type": "string" },
+        "gender": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "createdBy": { "type": "string" },
+        "updatedBy": { "type": "string" }
+      },
+      "required": ["title", "firstName", "lastName", "email"]
+    },
+    "LiteratureItem": {
+      "title": "LiteratureItem",
+      "description": "Capacity building literature and research document",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "materialType": { "type": "string" },
+        "description": { "type": "string" },
+        "wpTag": { "type": "string" },
+        "fileUrl": { "type": "string" },
+        "fileName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "materialType", "description"]
+    },
+    "Manuscript": {
+      "title": "Manuscript",
+      "description": "Academic manuscript and writing pipeline collaboration tracking",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "workPackage": { "type": "string" },
+        "leadAuthor": { "type": "string" },
+        "leadAuthorEmail": { "type": "string" },
+        "coAuthors": { "type": "array", "items": { "type": "string" } },
+        "targetJournal": { "type": "string" },
+        "writingStage": { "type": "string" },
+        "abstract": { "type": "string" },
+        "keywords": { "type": "array", "items": { "type": "string" } },
+        "ecrOpportunities": { "type": "string" },
+        "isOpenForCollaboration": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "workPackage", "leadAuthor", "writingStage"]
+    }
+  },
+  "firestore": {
+    "/tickets/{ticketId}": {
+      "schema": "Ticket",
+      "description": "Collection of activity tracker tickets"
+    },
+    "/analytics/{analyticsId}": {
+      "schema": "AnalyticsData",
+      "description": "Collection of survey analytics data"
+    },
+    "/dissemination/{itemId}": {
+      "schema": "DisseminationItem",
+      "description": "Collection of dissemination repository items"
+    },
+    "/tasks/{taskId}": {
+      "schema": "GanttTask",
+      "description": "Collection of Gantt chart tasks"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user profiles and permissions"
+    },
+    "/deleted_users/{email}": {
+      "schema": "DeletedUser",
+      "description": "Blacklist records preventing recreations of deleted accounts"
+    },
+    "/personalPriorities/{priorityId}": {
+      "schema": "PersonalPriority",
+      "description": "User specific personal tasks"
+    },
+    "/training_events/{trainingId}": {
+      "schema": "TrainingEvent",
+      "description": "Collection of training events and key info"
+    },
+    "/mentoring_records/{mentoringId}": {
+      "schema": "MentoringRecord",
+      "description": "Collection of researcher mentoring information"
+    },
+    "/training_resources/{resourceId}": {
+      "schema": "TrainingResource",
+      "description": "Collection of training resources, templates and slide decks"
+    },
+    "/attendance_records/{attendanceId}": {
+      "schema": "AttendanceRecord",
+      "description": "Collection of training event attendees and confirmation logs"
+    },
+    "/training_feedback/{feedbackId}": {
+      "schema": "TrainingFeedback",
+      "description": "Collection of training evaluation metrics and narrative feedback"
+    },
+    "/nihr_academy_trainees/{traineeId}": {
+      "schema": "NihrTrainee",
+      "description": "Collection of NIHR Academy trainees and academic career development awards"
+    },
+    "/literature_library/{itemId}": {
+      "schema": "LiteratureItem",
+      "description": "Collection of literature and academic materials"
+    },
+    "/manuscript_hub/{manuscriptId}": {
+      "schema": "Manuscript",
+      "description": "Collection of collaborative research manuscripts and writing stages"
+    }
+  }
+}
